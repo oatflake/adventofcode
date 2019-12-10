@@ -35,7 +35,7 @@ def distance(coord, station):
 def polarAngle(coord):
     PI = 3.1415926
     angle = math.atan2(float(coord[1]), float(coord[0]))
-    return -((-angle + PI * 2. + PI * 3. / 2. - 0.001) % (PI * 2.))
+    return (angle + PI * 2. + PI / 2. + 0.001) % (PI * 2.)
 
 input = open("input", "r")
 y = 0
