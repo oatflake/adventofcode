@@ -1,3 +1,5 @@
-# aoc19
-Advent of Code 2019
+# aoc2019
+
+Advent of Code 2019 Solutions
+
 https://adventofcode.com/2019
