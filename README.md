@@ -1,3 +1,3 @@
-# aoc
-Advent of Code Solutions
-https://adventofcode.com/2015
+# Advent of Code Solutions
+
+https://adventofcode.com
