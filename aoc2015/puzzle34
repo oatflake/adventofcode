@@ -1,0 +1,30 @@
+input = open("input", "r")
+eggnogg = 150
+containers = []
+count = 0
+for line in input:
+    containers.append(int(line.strip("\n")))
+combinedContainers = dict()
+for i in range(len(containers)):
+    combinedContainers[str([i])] = containers[i]                # workaround using strings as keys...
+for i in range(len(containers)):
+    newCombinedContainers = dict()
+    seenCombo = set()
+    for container in range(len(containers)):
+        for key, value in combinedContainers.items():
+            key = eval(key)                                     # ... storing lists ...
+            if not container in key:
+                key.append(container)
+                key = sorted(key)                               # ... which are sorted ...
+                value += containers[container]
+                key = str(key)
+                if key not in seenCombo:
+                    if value == eggnogg:
+                        count += 1
+                    if value < eggnogg:
+                        newCombinedContainers[key] = value      # ... because we cannot use sets as keys :(
+                    seenCombo.add(key)
+    if count > 0:
+        break
+    combinedContainers = newCombinedContainers
+print count
