@@ -4,26 +4,25 @@ containers = []
 count = 0
 for line in input:
     containers.append(int(line.strip("\n")))
-combinedContainers = dict()
+combinedContainers = []
 for i in range(len(containers)):
-    combinedContainers[str([i])] = containers[i]                # workaround using strings as keys...
+    combinedContainers.append((set([i]), containers[i]))
 for i in range(len(containers)):
-    newCombinedContainers = dict()
+    newCombinedContainers = []
     seenCombo = set()
     for container in range(len(containers)):
-        for key, value in combinedContainers.items():
-            key = eval(key)                                     # ... storing lists ...
+        for key, value in combinedContainers:
             if not container in key:
-                key.append(container)
-                key = sorted(key)                               # ... which are sorted ...
+                key = set(key)
+                key.add(container)
                 value += containers[container]
-                key = str(key)
-                if key not in seenCombo:
+                frozen = frozenset(key)
+                if frozen not in seenCombo:
                     if value == eggnogg:
                         count += 1
                     if value < eggnogg:
-                        newCombinedContainers[key] = value      # ... because we cannot use sets as keys :(
-                    seenCombo.add(key)
+                        newCombinedContainers.append((key, value))
+                    seenCombo.add(frozen)
     if count > 0:
         break
     combinedContainers = newCombinedContainers
