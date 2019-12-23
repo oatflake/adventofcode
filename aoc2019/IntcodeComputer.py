@@ -39,7 +39,7 @@ class IntcodeComputer:
             opcode = instruction % 100
             parameter1 = self.getParameter(instruction, 1)
             parameter2 = self.getParameter(instruction, 2)
-            param3Address = self.read(self.instructionPointer + 3) 
+            param3Address = self.read(self.instructionPointer + 3)
             param3Address += self.relativeBase if self.getDigit(instruction, 4) == 2 else 0
             if opcode == 1:
                 self.memory[param3Address] = parameter1 + parameter2
@@ -49,7 +49,12 @@ class IntcodeComputer:
                 self.instructionPointer += 4
             if opcode == 3:
                 baseOffset = self.relativeBase if self.getDigit(instruction, 2) == 2 else 0
-                self.memory[baseOffset + self.read(self.instructionPointer + 1)] = self.input.get()
+                if self.input.qsize() == 0:
+                    self.input.put(-1)
+                    return None
+                else:
+                    value = self.input.get()
+                self.memory[baseOffset + self.read(self.instructionPointer + 1)] = value
                 self.instructionPointer += 2
             if opcode == 4:
                 self.instructionPointer += 2
