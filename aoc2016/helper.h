@@ -2,10 +2,11 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string.h> 
 #include <functional>
 
-std::vector<std::string> split(std::string word, std::string delimiter) {
+std::vector<std::string> split(const std::string& word, const std::string& delimiter) {
     std::vector<std::string> substrings;
     std::size_t startIndex = 0;
     std::size_t endIndex = word.find(delimiter);
@@ -18,7 +19,7 @@ std::vector<std::string> split(std::string word, std::string delimiter) {
     return substrings;
 }
 
-bool readInputFile(void* handler, std::function<void(void*, std::string)> callback) {
+bool readInputFile(void* handler, std::function<void(void*, const std::string&)> callback) {
     std::string line;
     std::ifstream inputFile ("input");
     if (inputFile.is_open()) {
@@ -39,26 +40,22 @@ private:
 	T coords[n];
 
 public:
-	Vector()
-	{
+	Vector() {
 		for (int i = 0; i < n; i++)
 			coords[i] = 0;
 	}
 
-	Vector(const T coords[n])
-	{
-		memcpy(this->coords, coords, n * sizeof(T) );
+	Vector(const T coords[n]) {
+		memcpy(this->coords, coords, n * sizeof(T));
 	}
 	
-    T operator[](int i) const
-    {
+    T operator[](int i) const {
         return coords[i];
     }
 };
 
 template<typename T, int n> Vector<T, n> 
-operator+(const Vector<T, n>& lhs, const Vector<T, n>& rhs)
-{
+operator+(const Vector<T, n>& lhs, const Vector<T, n>& rhs) {
     T coords[n];
     for (int i = 0; i < n; i++) {
         coords[i] = lhs[i] + rhs[i];
@@ -67,8 +64,7 @@ operator+(const Vector<T, n>& lhs, const Vector<T, n>& rhs)
 }
 
 template<typename T, int n> 
-Vector<T, n> operator*(int lhs, const Vector<T, n>& rhs)
-{
+Vector<T, n> operator*(int lhs, const Vector<T, n>& rhs) {
     T coords[n];
     for (int i = 0; i < n; i++) {
         coords[i] = lhs * rhs[i];
@@ -77,14 +73,12 @@ Vector<T, n> operator*(int lhs, const Vector<T, n>& rhs)
 }
 
 template<typename T, int n> 
-Vector<T, n> operator*(const Vector<T, n>& lhs, int rhs)
-{
+Vector<T, n> operator*(const Vector<T, n>& lhs, int rhs) {
     return rhs * lhs;
 }
 
 template<typename T, int n> 
-bool operator==(const Vector<T, n>& lhs, const Vector<T, n>& rhs)
-{
+bool operator==(const Vector<T, n>& lhs, const Vector<T, n>& rhs) {
     bool same = true;
     for (int i = 0; i < n; i++) {
         same = same && lhs[i] == rhs[i];
@@ -95,17 +89,14 @@ bool operator==(const Vector<T, n>& lhs, const Vector<T, n>& rhs)
 // --- based on: https://stackoverflow.com/questions/19195183/how-to-properly-hash-the-custom-struct ---
 namespace std {
 template <class T>
-inline void hash_combine(std::size_t & s, const T & v)
-{
+inline void hash_combine(std::size_t& s, const T& v) {
   std::hash<T> h;
   s^= h(v) + 0x9e3779b9 + (s<< 6) + (s>> 2);
 }
 
 template<typename T, int n>
-struct hash<Vector<T, n>>
-{
-    std::size_t operator()(Vector<T, n> const& s) const 
-    {
+struct hash<Vector<T, n>> {
+    std::size_t operator()(Vector<T, n> const& s) const {
         std::size_t res = 0;
         for (int i = 0; i < n; i++) {
             hash_combine(res, s[i]);
