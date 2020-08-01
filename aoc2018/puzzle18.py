@@ -3,13 +3,6 @@ import sys
 input = open("input", "r").read().strip("\n").split(' ')
 numPlayers = int(input[0])
 numMarbles = int(input[6]) * 100
-
-class Marble:
-    def __init__(self, value, left, right):
-        self.value = value
-        self.left = left
-        self.right = right
-
 leftNeighbors = [-1] * (numMarbles + 1)
 rightNeighbors = [-1] * (numMarbles + 1)
 currentMarble = 0
