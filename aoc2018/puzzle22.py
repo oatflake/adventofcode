@@ -33,7 +33,6 @@ for s in range(1, 300):
             sum += summedGrid[i + gridSize * j]
         for i in range(gridSize - s):
             tmp = summedGrid[i + gridSize * j]
-            #print sum
             if sum > maxPower:
                 maxIndex = i + gridSize * j
                 maxPower = sum
