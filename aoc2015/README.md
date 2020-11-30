@@ -3,7 +3,7 @@
 Advent of Code 2015 Solutions
 
 https://adventofcode.com/2015
-
+<pre>
 --- Progress ---
 25
 24
@@ -30,3 +30,4 @@ https://adventofcode.com/2015
  3 **
  2 **
  1 **
+</pre>
