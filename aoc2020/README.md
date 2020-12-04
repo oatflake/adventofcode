@@ -26,7 +26,7 @@ https://adventofcode.com/2020
  7
  6
  5
- 4
+ 4 **
  3 **
  2 **
  1 **
