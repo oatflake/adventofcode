@@ -7,9 +7,9 @@ https://adventofcode.com
 [2020] 50*             Prolog
 [2019] 50*             Python
 [2018] 28*             Python
-[2017] 45*             C++
+[2017] 46*             C++
 [2016] 50*             C++
 [2015] 39*             Python
 
-Total stars: 262*
+Total stars: 263*
 </pre>
