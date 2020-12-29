@@ -9,7 +9,7 @@ https://adventofcode.com
 [2018] 28*             Python
 [2017] 50*             C++
 [2016] 50*             C++
-[2015] 40*             Python
+[2015] 42*             Python
 
-Total stars: 268*
+Total stars: 270*
 </pre>
