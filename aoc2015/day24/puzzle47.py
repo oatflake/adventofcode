@@ -40,8 +40,8 @@ def main():
     # exists that would fulfill the requirements.
     # Another example: 
     # [3, 3, 4, 6, 7, 7 ] could be divided into [ 7, 3 ], [ 7, 3 ], and [ 6, 4 ].
-    # It's also possible to create [ 6, 3, 3 ], with the rest not having a subdivision
-    # which would fulfill the requirements. However, [ 6, 3, 3 ] is not minimal.
+    # It's also possible to create [ 4, 3, 3 ], with the rest not having a subdivision
+    # which would fulfill the requirements. However, [ 4, 3, 3 ] is not minimal.
     """firstGroup = None
     for result in results:
         rest = []
