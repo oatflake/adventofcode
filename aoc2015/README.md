@@ -6,7 +6,7 @@ https://adventofcode.com/2015
 <pre>
 --- Progress ---
 25
-24
+24 **
 23 **
 22 **
 21 **
