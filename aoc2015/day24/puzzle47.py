@@ -32,16 +32,6 @@ def main():
     # Normally one would have to check whether the rest of the weights
     # can be subdivided into two disjunct sets with the appropiate sums.
     # However, it seems for this particular input these checks are unnecessary.
-    # This may be due to the fact that 
-    # 1. we are looking for the smallest subset.
-    # 2. there is some subdivision that fulfills the requirements.
-    #
-    # For example: [ 3, 5, 7 ] does have the subset [ 5 ], but no overall subdivion
-    # exists that would fulfill the requirements.
-    # Another example: 
-    # [3, 3, 4, 6, 7, 7 ] could be divided into [ 7, 3 ], [ 7, 3 ], and [ 6, 4 ].
-    # It's also possible to create [ 4, 3, 3 ], with the rest not having a subdivision
-    # which would fulfill the requirements. However, [ 4, 3, 3 ] is not minimal.
     """firstGroup = None
     for result in results:
         rest = []
