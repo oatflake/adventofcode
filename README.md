@@ -6,7 +6,7 @@ https://adventofcode.com
 --- Progress ---   --- Language ---
 [2020] 50*             Prolog
 [2019] 50*             Python
-[2018] 28*             Python
+[2018] 30*             Python
 [2017] 50*             C++
 [2016] 50*             C++
 [2015] 50*             Python
