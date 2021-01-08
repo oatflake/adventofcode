@@ -11,5 +11,5 @@ https://adventofcode.com
 [2016] 50*             C++
 [2015] 50*             Python
 
-Total stars: 278*
+Total stars: 280*
 </pre>
