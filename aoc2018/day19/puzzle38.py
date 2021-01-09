@@ -91,7 +91,7 @@ The sum of the factors of the value in register 2 is computed!
 The output of part 1 of the puzzle confirms this.
 
 So let's take whatever value register 2 contains in part 2 of the puzzle, and 
-compute the sum of it's factors.
+compute the sum of its factors.
 """
 
 """
