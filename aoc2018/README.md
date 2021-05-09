@@ -5,7 +5,7 @@ Advent of Code 2018 Solutions
 https://adventofcode.com/2018
 <pre>
 --- Progress ---
-25
+25 **
 24 **
 23 **
 22 **
