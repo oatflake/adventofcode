@@ -4,41 +4,41 @@
 
 :- dynamic num/2.
 
-all_chars([H]) --> [H], {[H] \= "\n", [H] \= " "}.
-all_chars([H|T]) --> [H], {[H] \= "\n", [H] \= " "}, all_chars(T).
-parse([X|T]) --> all_chars(X), "\n", parse(T).
+all_chars([Head]) --> [Head], {[Head] \= "\n", [Head] \= " "}.
+all_chars([Head|Tail]) --> [Head], {[Head] \= "\n", [Head] \= " "}, all_chars(Tail).
+parse([Line|Tail]) --> all_chars(Line), "\n", parse(Tail).
 parse([]) --> [].
 
 assert_data([], _).
-assert_data([X|T], N) :-
-    number_codes(Num, X),
-    assert(num(N, Num)),
-    N1 #= N + 1,
-    assert_data(T, N1).
+assert_data([NumberAsString|Tail], ID) :-
+    number_codes(Number, NumberAsString),
+    assert(num(ID, Number)),
+    IncreasedID #= ID + 1,
+    assert_data(Tail, IncreasedID).
 
-valid(N, _) :- N < 26.
-valid(N, X) :- 
-    F #= N - 25, 
-    L #= N - 1, 
-    N1 #\= N2, 
-    [N1, N2] ins F..L, 
-    num(N1, Y), 
-    num(N2, Z), 
-    X #= Y + Z.
+valid(ID, _) :- ID < 26.
+valid(ID, TargetValue) :- 
+    FirstID #= ID - 25, 
+    LastID #= ID - 1, 
+    SomeID #\= SomeOtherID, 
+    [SomeID, SomeOtherID] ins FirstID..LastID, 
+    num(SomeID, SomeValue), 
+    num(SomeOtherID, SomeOtherValue), 
+    TargetValue #= SomeValue + SomeOtherValue.
 
-smallerInvalidExists(N) :-
-    N1 #< N,
-    num(N1, X),
-    \+ valid(N1, X).
+smallerInvalidIdExists(ID) :-
+    OtherID #< ID,
+    num(OtherID, OtherValue),
+    \+ valid(OtherID, OtherValue).
 
-solve(X) :-
-    num(N, X),
-    \+ valid(N, X),
-    \+ smallerInvalidExists(N).
+solve(Value) :-
+    num(ID, Value),
+    \+ valid(ID, Value),
+    \+ smallerInvalidIdExists(ID).
 
 main :-
     retractall(num(_,_)),
-    phrase_from_file(parse(D), "input"),
-    assert_data(D, 1),
+    phrase_from_file(parse(Data), "input"),
+    assert_data(Data, 1),
     solve(Result),
     writeln(Result).

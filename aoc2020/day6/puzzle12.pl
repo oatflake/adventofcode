@@ -2,26 +2,26 @@
 :- use_module(library(clpfd)).
 :- set_prolog_flag(double_quotes,codes).
 
-all_chars([H]) --> [H], {[H] \= "\n"}.
-all_chars([H|T]) --> [H], {[H] \= "\n"}, all_chars(T).
-group([H|T]) --> all_chars(H), "\n", group(T).
-group([H]) --> all_chars(H), "\n".
-parse([A|L]) --> group(A), "\n", parse(L).
-parse([A]) --> group(A).
+all_chars([Head]) --> [Head], {[Head] \= "\n"}.
+all_chars([Head|Tail]) --> [Head], {[Head] \= "\n"}, all_chars(Tail).
+group([Head|Tail]) --> all_chars(Head), "\n", group(Tail).
+group([Head]) --> all_chars(Head), "\n".
+parse([Group|Tail]) --> group(Group), "\n", parse(Tail).
+parse([Group]) --> group(Group).
 
-group_intersection([X], X).
-group_intersection([X,Y|T], L) :-
-    intersection(X,Y,I),
-    group_intersection([I|T], L).
+group_intersection([IntersectionResult], IntersectionResult).
+group_intersection([First,Second|Tail], IntersectionResult) :-
+    intersection(First, Second, Intersection),
+    group_intersection([Intersection|Tail], IntersectionResult).
 
-count([], 0).
-count([H|T], R) :-
-    group_intersection(H, L),
-    length(L, N),
-    R #= N + N1,
-    count(T, N1).
+sumOfGroupWiseAgreeingAnswers([], 0).
+sumOfGroupWiseAgreeingAnswers([Head|Tail], Result) :-
+    group_intersection(Head, Intersection),
+    length(Intersection, Length),
+    Result #= Length + Rest,
+    sumOfGroupWiseAgreeingAnswers(Tail, Rest).
 
 main :-
-    phrase_from_file(parse(L), "input"),
-    count(L, N),
-    writeln(N).
+    phrase_from_file(parse(Data), "input"),
+    sumOfGroupWiseAgreeingAnswers(Data, Result),
+    writeln(Result).

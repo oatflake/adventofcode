@@ -2,30 +2,30 @@
 :- use_module(library(pio)).
 :- set_prolog_flag(double_quotes,codes).
 
-all_chars([H]) --> [H], {[H] \= "\n", [H] \= " "}.
-all_chars([H|T]) --> [H], {[H] \= "\n", [H] \= " "}, all_chars(T).
-parse([X|T]) --> all_chars(X), "\n", parse(T).
+all_chars([Head]) --> [Head], {[Head] \= "\n", [Head] \= " "}.
+all_chars([Head|Tail]) --> [Head], {[Head] \= "\n", [Head] \= " "}, all_chars(Tail).
+parse([Line|Tail]) --> all_chars(Line), "\n", parse(Tail).
 parse([]) --> [].
 
 jolt_differences(_, [], Ones, Threes, Result) :- Result #= (Threes + 1) * Ones.
-jolt_differences(X, [H|T], Ones, Threes, Result) :-
-    H - X #= 2,
-    jolt_differences(H, T, Ones, Threes, Result).
-jolt_differences(X, [H|T], Ones, Threes, Result) :-
-    H - X #= 3,
+jolt_differences(X, [Head|Tail], Ones, Threes, Result) :-
+    Head - X #= 2,
+    jolt_differences(Head, Tail, Ones, Threes, Result).
+jolt_differences(X, [Head|Tail], Ones, Threes, Result) :-
+    Head - X #= 3,
     ThreesNew = Threes + 1,
-    jolt_differences(H, T, Ones, ThreesNew, Result).
-jolt_differences(X, [H|T], Ones, Threes, Result) :-
-    H - X #= 1,
+    jolt_differences(Head, Tail, Ones, ThreesNew, Result).
+jolt_differences(X, [Head|Tail], Ones, Threes, Result) :-
+    Head - X #= 1,
     OnesNew = Ones + 1,
-    jolt_differences(H, T, OnesNew, Threes, Result).
+    jolt_differences(Head, Tail, OnesNew, Threes, Result).
 
-solve(L, Result) :-
-    maplist(number_codes, L2, L),
-    sort(L2, Sorted),
-    jolt_differences(0, Sorted, 0, 0, Result).
+solve(ListOfNumbersAsStrings, Result) :-
+    maplist(number_codes, ListOfNumbers, ListOfNumbersAsStrings),
+    sort(ListOfNumbers, SortedList),
+    jolt_differences(0, SortedList, 0, 0, Result).
 
 main :-
-    phrase_from_file(parse(D), "input"),
-    solve(D, Result),
+    phrase_from_file(parse(Data), "input"),
+    solve(Data, Result),
     writeln(Result).

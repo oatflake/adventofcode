@@ -2,29 +2,30 @@
 :- use_module(library(clpfd)).
 :- set_prolog_flag(double_quotes,codes).
 
-all_chars([H]) --> [H], {[H] \= "\n"}.
-all_chars([H|T]) --> [H], {[H] \= "\n"}, all_chars(T).
-group(L) --> all_chars(H), "\n", group(T), {append(H, T, L)}.
-group(H) --> all_chars(H), "\n".
-parse([A|L]) --> group(A), "\n", parse(L).
-parse([A]) --> group(A).
+all_chars([Head]) --> [Head], {[Head] \= "\n"}.
+all_chars([Head|Tail]) --> [Head], {[Head] \= "\n"}, all_chars(Tail).
+% flatten answers of group members into one list
+group(List) --> all_chars(Head), "\n", group(Tail), {append(Head, Tail, List)}.
+group(Head) --> all_chars(Head), "\n".
+parse([Group|Tail]) --> group(Group), "\n", parse(Tail).
+parse([Group]) --> group(Group).
 
 printGroups([]).
-printGroups([H|T]) :- atom_codes(S, H), writeln(S), printGroups(T).
+printGroups([HeadAsString|Tail]) :- atom_codes(HeadAsAtom, HeadAsString), writeln(HeadAsAtom), printGroups(Tail).
 
 removeDuplicates([], []).
-removeDuplicates([H|T], [H|L]) :- \+ member(H, T), removeDuplicates(T, L).
-removeDuplicates([H|T], L) :- once(member(H, T)), removeDuplicates(T, L).
+removeDuplicates([Head|Tail], [Head|NewList]) :- \+ member(Head, Tail), removeDuplicates(Tail, NewList).
+removeDuplicates([Head|Tail], NewList) :- once(member(Head, Tail)), removeDuplicates(Tail, NewList).
 
-count([], 0).
-count([H|T], R) :-
-    removeDuplicates(H, H1),
-    length(H1, N),
-    R #= N + N1,
-    count(T, N1).
+sumOfGroupWiseUniqueAnswers([], 0).
+sumOfGroupWiseUniqueAnswers([Head|Tail], Result) :-
+    removeDuplicates(Head, GroupAnswersWithoutDuplicates),
+    length(GroupAnswersWithoutDuplicates, NumberOfUniqueAnswers),
+    Result #= NumberOfUniqueAnswers + Rest,
+    sumOfGroupWiseUniqueAnswers(Tail, Rest).
 
 main :-
-    phrase_from_file(parse(L), "input"),
-    %printGroups(L),
-    count(L, N),
-    writeln(N).
+    phrase_from_file(parse(Data), "input"),
+    %printGroups(Data),
+    sumOfGroupWiseUniqueAnswers(Data, Result),
+    writeln(Result).

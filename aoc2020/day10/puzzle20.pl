@@ -2,26 +2,26 @@
 :- use_module(library(pio)).
 :- set_prolog_flag(double_quotes,codes).
 
-all_chars([H]) --> [H], {[H] \= "\n", [H] \= " "}.
-all_chars([H|T]) --> [H], {[H] \= "\n", [H] \= " "}, all_chars(T).
-parse([X|T]) --> all_chars(X), "\n", parse(T).
+all_chars([Head]) --> [Head], {[Head] \= "\n", [Head] \= " "}.
+all_chars([Head|Tail]) --> [Head], {[Head] \= "\n", [Head] \= " "}, all_chars(Tail).
+parse([Line|Tail]) --> all_chars(Line), "\n", parse(Tail).
 parse([]) --> [].
 
 :- table arrangements/2.
 arrangements([_,_], 1).
-arrangements([A, B, C|T], N) :-
-    ( C - A #< 4 -> arrangements([A, C|T], S1) ; S1 #= 0 ),
-    arrangements([B, C|T], S2),
-    N #= S1 + S2.
+arrangements([First, Second, Third|Tail], Result) :-
+    ( Third - First #< 4 -> arrangements([First, Third|Tail], Sum1) ; Sum1 #= 0 ),
+    arrangements([Second, Third|Tail], Sum2),
+    Result #= Sum1 + Sum2.
 
-solve(L, Result) :-
-    maplist(number_codes, L2, L),
-    max_list(L2, Max),
+solve(ListOfNumbersAsStrings, Result) :-
+    maplist(number_codes, ListOfNumbers, ListOfNumbersAsStrings),
+    max_list(ListOfNumbers, Max),
     Last #= Max + 3,
-    sort([0, Last|L2], Sorted),
+    sort([0, Last|ListOfNumbers], Sorted),
     arrangements(Sorted, Result).
 
 main :-
-    phrase_from_file(parse(D), "input"),
-    solve(D, Result),
+    phrase_from_file(parse(Data), "input"),
+    solve(Data, Result),
     writeln(Result).
