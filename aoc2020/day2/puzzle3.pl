@@ -2,42 +2,43 @@
 :- use_module(library(clpfd)).
 :- set_prolog_flag(double_quotes,codes).
 
+% Min, Max, Letter, PasswordString
 :- dynamic password/4.
 
 all_chars([]) --> [].
-all_chars([H|T]) --> [H], all_chars(T).
+all_chars([Head|Tail]) --> [Head], all_chars(Tail).
 parse([]) --> [].
-parse([I, J, K, S|T]) -->
-     all_chars(I), "-",
-     all_chars(J), " ",
-     [K], ": ",
-     all_chars(S), "\n", !, parse(T).
+parse([Min, Max, Letter, PasswordString|Tail]) -->
+    all_chars(Min), "-",
+    all_chars(Max), " ",
+    [Letter], ": ",
+    all_chars(PasswordString), "\n", !, parse(Tail).
 
 assertData([]).
-assertData([I,J,K,S|T]) :-
-     number_codes(Ii, I),
-     number_codes(Ji, J),
-     assertz(password(Ii, Ji, K, S)),
-     assertData(T).
+assertData([MinAsString, MaxAsString, Letter, PasswordString|Tail]) :-
+    number_codes(MinAsNumber, MinAsString),
+    number_codes(MaxAsNumber, MaxAsString),
+    assertz(password(MinAsNumber, MaxAsNumber, Letter, PasswordString)),
+    assertData(Tail).
 
 count(_, [], 0).
-count(X, [X|T], N) :-
-     N #= N1 + 1,
-     count(X, T, N1).
-count(X, [H|T], N) :-
-     X \= H,
-     count(X, T, N).
+count(SearchedItem, [SearchedItem|Tail], IncreasedOccurences) :-
+    IncreasedOccurences #= Occurences + 1,
+    count(SearchedItem, Tail, Occurences).
+count(SearchedItem, [Head|Tail], Occurences) :-
+    SearchedItem \= Head,
+    count(SearchedItem, Tail, Occurences).
 
 valid(String) :-
-     password(Min, Max, Char, String),
-     count(Char, String, N),
-     Min #=< N,
-     Max #>= N.
+    password(Min, Max, Char, String),
+    count(Char, String, Occurences),
+    Min #=< Occurences,
+    Max #>= Occurences.
 
 main :-
     retractall(password(_, _, _, _)),
     phrase_from_file(parse(Data), "input"),
     assertData(Data),
-    findall(X, valid(X), L),
-    length(L, N),
-    writeln(N).
+    findall(PasswordString, valid(PasswordString), List),
+    length(List, Result),
+    writeln(Result).

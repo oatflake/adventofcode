@@ -5,16 +5,16 @@
 :- dynamic entry/1.
 
 all_chars([]) --> [].
-all_chars([H|T]) --> [H], all_chars(T).
+all_chars([Head|Tail]) --> [Head], all_chars(Tail).
 parse([]) --> [].
-parse([I|T]) --> all_chars(I), "\n", !, parse(T).
+parse([Line|Tail]) --> all_chars(Line), "\n", !, parse(Tail).
 
 assertData([]).
-assertData([I|T]) :-
-     number_codes(Ii, I),
+assertData([String|Tail]) :-
+     number_codes(Number, String),
      %writeln(Ii),
-     assertz(entry(Ii)),
-     assertData(T).
+     assertz(entry(Number)),
+     assertData(Tail).
 
 main :-
     phrase_from_file(parse(Data), "input"),

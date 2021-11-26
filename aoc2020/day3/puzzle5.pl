@@ -2,46 +2,47 @@
 :- use_module(library(clpfd)).
 :- set_prolog_flag(double_quotes,codes).
 
+% Char, XCoord, YCoord
 :- dynamic cell/3.
 
 all_chars([]) --> [].
-all_chars([H|T]) --> [H], all_chars(T).
+all_chars([Head|Tail]) --> [Head], all_chars(Tail).
 parse([]) --> [].
-parse([X|T]) -->
-     all_chars(X),
+parse([Line|Tail]) -->
+     all_chars(Line),
      "\n",
-     parse(T).
+     parse(Tail).
 
 assertCells([], _, _).
-assertCells([H|T], X, Y) :-
-     assert(cell(H, X, Y)),
-     X1 #= X + 1,
-     assertCells(T, X1, Y).
+assertCells([Head|Tail], XCoord, YCoord) :-
+     assert(cell(Head, XCoord, YCoord)),
+     InceasedXCoord #= XCoord + 1,
+     assertCells(Tail, InceasedXCoord, YCoord).
 
 assertData([], _).
-assertData([L|T], Y) :-
-     assertCells(L, 0, Y),
-     Y1 #= Y + 1,
-     assertData(T, Y1).
+assertData([Line|Tail], YCoord) :-
+     assertCells(Line, 0, YCoord),
+     InceasedYCoord #= YCoord + 1,
+     assertData(Tail, InceasedYCoord).
 
 countTrees(_, Y, 0, _, Height) :- Y #>= Height.
-countTrees(X, Y, N, Width, Height) :-
-    cell(46, X, Y),
+countTrees(X, Y, NumberOfTrees, Width, Height) :-
+    cell(46, X, Y),     % 46 is no tree
     X1 #= (X + 3) mod Width,
     Y1 #= Y + 1,
-    countTrees(X1, Y1, N, Width, Height).
-countTrees(X, Y, N, Width, Height) :-
-    cell(35, X, Y),
-    N #= N1 + 1,
+    countTrees(X1, Y1, NumberOfTrees, Width, Height).
+countTrees(X, Y, IncreasedNumberOfTrees, Width, Height) :-
+    cell(35, X, Y),     % 35 is a tree
+    IncreasedNumberOfTrees #= NumberOfTrees + 1,
     X1 #= (X + 3) mod Width,
     Y1 #= Y + 1,
-    countTrees(X1, Y1, N1, Width, Height).
+    countTrees(X1, Y1, NumberOfTrees, Width, Height).
 
 main :-
     retractall(cell(_, _, _)),
-    phrase_from_file(parse([H|T]), "input"),
-    assertData([H|T], 0),
-    length(H, Width),
-    length([H|T], Height),
-    countTrees(0, 0, N, Width, Height),
-    writeln(N).
+    phrase_from_file(parse([FirstLine|Tail]), "input"),
+    assertData([FirstLine|Tail], 0),
+    length(FirstLine, Width),
+    length([FirstLine|Tail], Height),
+    countTrees(0, 0, Result, Width, Height),
+    writeln(Result).
