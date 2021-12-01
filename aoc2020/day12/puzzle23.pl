@@ -2,18 +2,19 @@
 :- use_module(library(pio)).
 :- set_prolog_flag(double_quotes,codes).
 
-all_chars([H]) --> [H], {[H] \= "\n", [H] \= " "}.
-all_chars([H|T]) --> [H], {[H] \= "\n", [H] \= " "}, all_chars(T).
-parse([[D, X]|T]) --> [D], all_chars(X), "\n", parse(T).
+all_chars([Head]) --> [Head], {[Head] \= "\n", [Head] \= " "}.
+all_chars([Head|Tail]) --> [Head], {[Head] \= "\n", [Head] \= " "}, all_chars(Tail).
+parse([[Action, Value]|Tail]) --> [Action], all_chars(Value), "\n", parse(Tail).
 parse([]) --> [].
 
 convert_data([], []).
-convert_data([[D, X]|T], [d(Char, Num)|L]) :-
-    number_codes(Num, X),
-    atom_char(Char, D),
-    convert_data(T, L).
+convert_data([[ActionAsString, ValueAsString]|Tail], [data(ActionAsAtom, ValueAsAtom)|List]) :-
+    number_codes(ValueAsAtom, ValueAsString),
+    atom_char(ActionAsAtom, ActionAsString),
+    convert_data(Tail, List).
 
-% move(Dir, Num, OldTransform, NewTransform)
+% transform(XCoord, YCoord, Rotation)
+% move(Action, Value, OldTransform, NewTransform)
 move('N', Num, transform(X, Y, R), transform(X, Y1, R)) :- Y1 #= Y + Num.
 move('E', Num, transform(X, Y, R), transform(X1, Y, R)) :- X1 #= X + Num.
 move('S', Num, transform(X, Y, R), transform(X, Y1, R)) :- Y1 #= Y - Num.
@@ -26,14 +27,14 @@ move('R', Num, transform(X, Y, R), transform(X, Y, R1)) :- R1 #= (R + Num + 360)
 move('L', Num, transform(X, Y, R), transform(X, Y, R1)) :- R1 #= (R - Num + 360) mod 360.
 
 solve([], Transform, Transform).
-solve([d(Dir, Num)|T], OldTransform, NewTransform) :-
-    move(Dir, Num, OldTransform, Transform2),
-    solve(T, Transform2, NewTransform).
+solve([data(Action, Value)|Tail], OldTransform, NewTransform) :-
+    move(Action, Value, OldTransform, Transform2),
+    solve(Tail, Transform2, NewTransform).
 
 main :-
     retractall(num(_,_)),
-    phrase_from_file(parse(D), "input"),
-    convert_data(D, L),
-    solve(L, transform(0, 0, 0), transform(X, Y, _)),
-    Dist #= abs(X) + abs(Y),
-    writeln(Dist).
+    phrase_from_file(parse(Data), "input"),
+    convert_data(Data, List),
+    solve(List, transform(0, 0, 0), transform(X, Y, _)),
+    Distance #= abs(X) + abs(Y),
+    writeln(Distance).
