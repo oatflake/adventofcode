@@ -28,6 +28,6 @@ https://adventofcode.com/2021
  5 
  4 
  3 
- 2 
+ 2 **
  1 **
 </pre>
