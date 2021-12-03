@@ -4,7 +4,7 @@ https://adventofcode.com
 
 <pre>
 --- Progress ---   --- Language ---
-[2021]  4*             Prolog
+[2021]  6*             Prolog
 [2020] 50*             Prolog
 [2019] 50*             Python
 [2018] 50*             Python
@@ -12,5 +12,5 @@ https://adventofcode.com
 [2016] 50*             C++
 [2015] 50*             Python
 
-Total stars: 304*
+Total stars: 306*
 </pre>
