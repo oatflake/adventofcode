@@ -26,7 +26,7 @@ https://adventofcode.com/2021
  7 
  6 
  5 
- 4 
+ 4 **
  3 **
  2 **
  1 **
