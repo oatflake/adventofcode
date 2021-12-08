@@ -22,7 +22,7 @@ https://adventofcode.com/2021
 11 
 10 
  9 
- 8 
+ 8 **
  7 **
  6 **
  5 **
