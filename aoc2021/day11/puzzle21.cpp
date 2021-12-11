@@ -39,7 +39,7 @@ int simulate(std::vector<int>& grid, int width, int height) {
             for (int i = std::max(x - 1, 0); i < std::min(x + 2, width); i++) {
                 int neighbor = i + j * width;
                 if (grid[neighbor] != -1)
-                    grid[i + j * width]++;
+                    grid[neighbor]++;
                 if (grid[neighbor] > 9)
                     flashers.push_back(neighbor);
             }
