@@ -4,7 +4,7 @@ https://adventofcode.com
 
 <pre>
 --- Progress ---   --- Language ---
-[2021] 28*             Prolog (Fallback: C++)
+[2021] 30*             Prolog (Fallback: C++)
 [2020] 50*             Prolog (Fallback: Python)
 [2019] 50*             Python
 [2018] 50*             Python
@@ -12,5 +12,5 @@ https://adventofcode.com
 [2016] 50*             C++
 [2015] 50*             Python
 
-Total stars: 328*
+Total stars: 330*
 </pre>
