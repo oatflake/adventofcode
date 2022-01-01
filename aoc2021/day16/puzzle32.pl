@@ -1,8 +1,6 @@
 :- use_module(library(clpfd)).
 :- use_module(library(pio)).
 :- set_prolog_flag(double_quotes,codes).
-:- use_module(library(rbtrees)).
-:- use_module(library(heaps)).
 
 all_chars([]) --> [].
 all_chars([Head|Tail]) --> [Head], {[Head] \= "\n"}, all_chars(Tail).
