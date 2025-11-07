@@ -2,3 +2,6 @@ input
 *.out
 *.pyc
 *.pl~
+*.exe
+*.pdb
+.vscode
