@@ -4,7 +4,7 @@ https://adventofcode.com
 
 <pre>
 --- Progress ---   --- Language ---
-[2024] 16*             Odin
+[2024] 24*             Odin
 [2023]  2*             Python
 [2022]  2*             Python
 [2021] 32*             Prolog (Fallback: C++)
@@ -15,5 +15,5 @@ https://adventofcode.com
 [2016] 50*             C++
 [2015] 50*             Python
 
-Total stars: 352*
+Total stars: 360*
 </pre>
